@@ -2,7 +2,7 @@ import { createRoomHandler } from './createRoomHandler.js';
 import { joinRoomHandler } from './joinRoomHandler.js';
 import { quizControlHandlers } from './quizControlHandlers.js';
 import { roomManagementHandlers } from './roomManagementHandlers.js';
-import { quizPresetHandlers } from './quizPresetHandlers.js'; // Import the new handler
+import { quizPresetHandlers } from './quizPresetHandlers.js';
 
 export const registerSocketHandlers = (io) => {
     io.on('connection', (socket) => {
@@ -12,6 +12,6 @@ export const registerSocketHandlers = (io) => {
         joinRoomHandler(io, socket);
         quizControlHandlers(io, socket);
         roomManagementHandlers(io, socket);
-        quizPresetHandlers(io, socket); // Register the new handler
+        quizPresetHandlers(io, socket);
     });
 };
