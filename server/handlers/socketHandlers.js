@@ -3,6 +3,8 @@ import { joinRoomHandler } from './joinRoomHandler.js';
 import { quizControlHandlers } from './quizControlHandlers.js';
 import { roomManagementHandlers } from './roomManagementHandlers.js';
 import { quizPresetHandlers } from './quizPresetHandlers.js';
+import { chatHandlers } from './chatHandlers.js';
+
 
 export const registerSocketHandlers = (io) => {
     io.on('connection', (socket) => {
@@ -13,5 +15,6 @@ export const registerSocketHandlers = (io) => {
         quizControlHandlers(io, socket);
         roomManagementHandlers(io, socket);
         quizPresetHandlers(io, socket);
+        chatHandlers(io, socket);
     });
 };

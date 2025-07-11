@@ -24,6 +24,8 @@ import {
     cancelEditBtn,
     quizPresetSelect,
     loadPresetBtn,
+    chatInput,
+    sendChatBtn,
     shareQuizBtn
 } from './dom-elements.js';
 import {
@@ -37,7 +39,28 @@ import {
     clearQuestionsList
 } from './utils.js';
 
+let currentUsername = '';
+
+function displayMessage(message) {
+    const messageElement = document.createElement('div');
+    messageElement.textContent = message;
+    messagesDiv.appendChild(messageElement);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
 export function setupUIHandlers() {
+    sendChatBtn.addEventListener('click', () => {
+        const message = chatInput.value.trim();
+        if (message) {
+            socket.emit('chatMessage', { roomName: currentRoomName, username: currentUsername, message: message });
+            chatInput.value = '';
+        }
+    });
+
+    socket.on('newMessage', (data) => {
+        displayMessage(`${data.username}: ${data.message}`);
+    });
+
     editQuizBtn.addEventListener('click', () => {
         editQuizArea.style.display = 'block';
         socket.emit('requestQuizForEdit', currentRoomName);
@@ -69,7 +92,7 @@ export function setupUIHandlers() {
     });
 
     socket.on('presetQuizLoaded', (quiz) => {
-        clearQuestionsList(); // Clear current questions
+        clearQuestionsList();
         quiz.forEach(q => {
             const newQuestionInputSet = createQuestionInputSet(q.question, q.options, q.answer);
             questionsListDiv.appendChild(newQuestionInputSet);
@@ -120,6 +143,7 @@ export function setupUIHandlers() {
         const username = usernameInput.value.trim();
         const roomName = roomNameInput.value.trim();
         if (username && roomName) {
+            currentUsername = username;
             socket.emit('joinRoom', { username, roomName });
             setCurrentRoomName(roomName);
         }
@@ -130,6 +154,7 @@ export function setupUIHandlers() {
         const roomName = roomNameInput.value.trim();
         const timeLimit = parseInt(timeLimitInput.value, 10);
         if (username && roomName && !isNaN(timeLimit) && timeLimit >= 5 && timeLimit <= 120) {
+            currentUsername = username;
             socket.emit('createRoom', { username, roomName, timeLimit });
             setCurrentRoomName(roomName);
             shareQuizBtn.style.display = 'inline-block';

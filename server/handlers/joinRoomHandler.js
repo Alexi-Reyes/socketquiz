@@ -16,6 +16,7 @@ export const joinRoomHandler = (io, socket) => {
         socket.join(roomName);
         console.log(`${username} joined room: ${roomName}`);
 
+        socket.username = username;
         rooms[roomName].players[socket.id] = { username, score: 0 };
 
         const isHost = rooms[roomName].hostId === socket.id;
