@@ -7,7 +7,8 @@ import {
     questionsListDiv,
     quizHeader,
     questionDisplay,
-    optionsContainer
+    optionsContainer,
+    answerStatusDiv
 } from './dom-elements.js';
 
 export let currentRoomName = '';
@@ -50,7 +51,9 @@ export function updateHostUI(quizStarted = false) {
         quizHeader.style.display = 'flex';
         questionDisplay.style.display = 'block';
         optionsContainer.style.display = 'block';
+        answerStatusDiv.style.display = 'block';
     } else {
+        answerStatusDiv.style.display = 'none';
         questionDisplay.style.display = 'none';
         optionsContainer.style.display = 'none';
         startQuizBtn.style.display = 'inline-block';
