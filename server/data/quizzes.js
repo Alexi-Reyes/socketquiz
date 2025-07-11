@@ -7,51 +7,51 @@ const quizzes = {
                 options: ["Berlin", "Madrid", "Paris", "Rome"],
                 answer: "Paris"
             },
-            // {
-            //     question: "Which planet is known as the Red Planet?",
-            //     options: ["Earth", "Venus", "Jupiter", "Mars"],
-            //     answer: "Mars"
-            // },
-            // {
-            //     question: "What is 7 * 8?",
-            //     options: ["49", "64", "56", "72"],
-            //     answer: "56"
-            // },
-            // {
-            //     question: "What is the largest ocean on Earth?",
-            //     options: ["Atlantic", "Indian", "Arctic", "Pacific"],
-            //     answer: "Pacific"
-            // },
-            // {
-            //     question: "Who painted the Mona Lisa?",
-            //     options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
-            //     answer: "Leonardo da Vinci"
-            // },
-            // {
-            //     question: "What is the chemical symbol for gold?",
-            //     options: ["Au", "Ag", "Fe", "Pb"],
-            //     answer: "Au"
-            // },
-            // {
-            //     question: "Which country is famous for the Great Wall?",
-            //     options: ["India", "China", "Japan", "Egypt"],
-            //     answer: "China"
-            // },
-            // {
-            //     question: "What is the highest mountain in the world?",
-            //     options: ["K2", "Mount Everest", "Kangchenjunga", "Lhotse"],
-            //     answer: "Mount Everest"
-            // },
-            // {
-            //     question: "How many continents are there?",
-            //     options: ["5", "6", "7", "8"],
-            //     answer: "7"
-            // },
-            // {
-            //     question: "What is the currency of Japan?",
-            //     options: ["Yuan", "Won", "Yen", "Rupee"],
-            //     answer: "Yen"
-            // }
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Earth", "Venus", "Jupiter", "Mars"],
+                answer: "Mars"
+            },
+            {
+                question: "What is 7 * 8?",
+                options: ["49", "64", "56", "72"],
+                answer: "56"
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+                answer: "Pacific"
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Claude Monet"],
+                answer: "Leonardo da Vinci"
+            },
+            {
+                question: "What is the chemical symbol for gold?",
+                options: ["Au", "Ag", "Fe", "Pb"],
+                answer: "Au"
+            },
+            {
+                question: "Which country is famous for the Great Wall?",
+                options: ["India", "China", "Japan", "Egypt"],
+                answer: "China"
+            },
+            {
+                question: "What is the highest mountain in the world?",
+                options: ["K2", "Mount Everest", "Kangchenjunga", "Lhotse"],
+                answer: "Mount Everest"
+            },
+            {
+                question: "How many continents are there?",
+                options: ["5", "6", "7", "8"],
+                answer: "7"
+            },
+            {
+                question: "What is the currency of Japan?",
+                options: ["Yuan", "Won", "Yen", "Rupee"],
+                answer: "Yen"
+            }
         ]
     },
     "science": {
