@@ -1,5 +1,36 @@
 import { rooms } from '../state.js';
 
+export function startNextQuestionCountdown(io, roomName) {
+    const room = rooms[roomName];
+    if (!room) return;
+
+    // clear timer
+    if (room.timerInterval) {
+        clearInterval(room.timerInterval);
+    }
+
+    const correctAnswer = room.quiz.questions[room.currentQuestionIndex].answer;
+    io.to(roomName).emit('answerResult', { correctAnswer });
+
+    // 5s timer
+    let countdown = 5;
+    io.to(roomName).emit('timer', countdown); // Show 5 immediately
+
+    room.timerInterval = setInterval(() => {
+        countdown--;
+        io.to(roomName).emit('timer', countdown);
+        if (countdown <= 0) {
+            clearInterval(room.timerInterval);
+            room.currentQuestionIndex++;
+            if (room.currentQuestionIndex < room.quiz.questions.length) {
+                sendQuestionWithTimer(io, roomName);
+            } else {
+                endQuiz(io, roomName);
+            }
+        }
+    }, 1000);
+}
+
 export function sendQuestionWithTimer(io, roomName) {
     const room = rooms[roomName];
     if (!room) return;
@@ -34,13 +65,8 @@ export function sendQuestionWithTimer(io, roomName) {
         timeLeft--;
         io.to(roomName).emit('timer', timeLeft);
         if (timeLeft <= 0) {
-            clearInterval(room.timerInterval);
-            room.currentQuestionIndex++;
-            if (room.currentQuestionIndex < room.quiz.questions.length) {
-                sendQuestionWithTimer(io, roomName);
-            } else {
-                endQuiz(io, roomName);
-            }
+            io.to(roomName).emit('message', 'Time is up!');
+            startNextQuestionCountdown(io, roomName);
         }
     }, 1000);
 }

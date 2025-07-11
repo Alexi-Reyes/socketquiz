@@ -5,6 +5,7 @@ import { roomManagementHandlers } from './roomManagementHandlers.js';
 import { quizPresetHandlers } from './quizPresetHandlers.js';
 import { chatHandlers } from './chatHandlers.js';
 
+
 export const registerSocketHandlers = (io) => {
     io.on('connection', (socket) => {
         console.log('A user connected:', socket.id);

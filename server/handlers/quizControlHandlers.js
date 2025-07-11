@@ -1,5 +1,5 @@
 import { rooms } from '../state.js';
-import { sendQuestionWithTimer, endQuiz } from '../utils/quizUtils.js';
+import { sendQuestionWithTimer, endQuiz, startNextQuestionCountdown } from '../utils/quizUtils.js';
 
 export const quizControlHandlers = (io, socket) => {
     socket.on('setTimeLimit', ({ roomName, timeLimit }) => {
@@ -87,7 +87,6 @@ export const quizControlHandlers = (io, socket) => {
 
         const timeElapsed = Math.floor((Date.now() - room.questionStartTime) / 1000);
         if (timeElapsed >= room.timeLimit) {
-            socket.emit('message', 'Time is up! Your answer was not counted.');
             return;
         }
 
@@ -112,18 +111,8 @@ export const quizControlHandlers = (io, socket) => {
 
             const activePlayersCount = Object.keys(room.players).length;
             if (room.answeredCount === activePlayersCount) {
-                io.to(roomName).emit('message', 'All players have answered! Next question in 3 seconds...');
-                if (room.timerInterval) {
-                    clearInterval(room.timerInterval);
-                }
-                room.timerInterval = setTimeout(() => {
-                    room.currentQuestionIndex++;
-                    if (room.currentQuestionIndex < room.quiz.questions.length) {
-                        sendQuestionWithTimer(io, roomName); 
-                    } else {
-                        endQuiz(io, roomName); 
-                    }
-                }, 3000);
+                io.to(roomName).emit('message', 'All players have answered! Revealing correct answer...');
+                startNextQuestionCountdown(io, roomName);
             }
         }
     });

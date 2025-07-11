@@ -58,23 +58,6 @@ export function setupSocketEvents() {
             item.classList.add('message-incorrect');
         } else if (msg.includes('All players have answered!')) {
             item.classList.add('message-all-answered');
-
-            // 3s countdown
-            let countdown = 3;
-            timerDisplay.textContent = `${countdown}`;
-            if (timerInterval) {
-                clearInterval(timerInterval);
-            }
-            setTimerInterval(setInterval(() => {
-                countdown--;
-                if (countdown > 0) {
-                    timerDisplay.textContent = `${countdown}`;
-                } else {
-                    clearInterval(timerInterval);
-                    setTimerInterval(null); 
-                    timerDisplay.textContent = '--';
-                }
-            }, 1000));
         } else if (msg.includes('Quiz has ended!')) {
             item.classList.add('message-end-quiz');
         }
@@ -92,7 +75,7 @@ export function setupSocketEvents() {
 
     socket.on('playerList', (players) => {
         playerListUl.innerHTML = '';
-        const colors = ['#FF5733', '#33FF57', '#3366FF', '#FF33CC', '#33FFFF'];
+        const colors = ['#8e44ad', '#2980b9', '#27ae60', '#f1c40f', '#e67e22'];
         players.forEach((player, index) => {
             const li = document.createElement('li');
             li.style.border = `solid 2px ${colors[index % colors.length]}`;
@@ -106,7 +89,6 @@ export function setupSocketEvents() {
         optionsContainer.innerHTML = '';
         setCurrentQuestionIndex(data.index);
 
-        // reset timer
         if (timerInterval) {
             clearInterval(timerInterval);
             setTimerInterval(null);
@@ -114,17 +96,13 @@ export function setupSocketEvents() {
         timerDisplay.textContent = '--';
         updateHostUI(true);
 
-        // renable options
-        Array.from(optionsContainer.children).forEach(btn => btn.disabled = false);
-
         data.options.forEach(option => {
             const button = document.createElement('button');
             button.textContent = option;
             button.classList.add('option-button');
+            button.style.backgroundColor = ''; // Reset background color
             button.addEventListener('click', () => {
                 socket.emit('submitAnswer', { roomName: currentRoomName, questionIndex: currentQuestionIndex, answer: option });
-
-                // disable options
                 Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
             });
             optionsContainer.appendChild(button);
@@ -133,15 +111,23 @@ export function setupSocketEvents() {
 
     socket.on('timer', (timeLeft) => {
         timerDisplay.textContent = `${timeLeft}`;
-        if (timeLeft <= 0) {
-            // disable options
-            Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
-        }
+    });
+
+    socket.on('answerResult', ({ correctAnswer }) => {
+        const buttons = optionsContainer.querySelectorAll('.option-button');
+        buttons.forEach(button => {
+            if (button.textContent === correctAnswer) {
+                button.style.backgroundColor = '#2ecc71';
+            } else {
+                button.style.backgroundColor = '#e74c3c';
+            }
+            button.disabled = true;
+        });
     });
 
     socket.on('updateScores', (players) => {
         playerListUl.innerHTML = '';
-        const colors = ['#FF5733', '#33FF57', '#3366FF', '#FF33CC', '#33FFFF'];
+        const colors = ['#8e44ad', '#2980b9', '#27ae60', '#f1c40f', '#e67e22'];
         players.forEach((player, index) => {
             const li = document.createElement('li');
             li.style.border = `solid 2px ${colors[index % colors.length]}`;
@@ -156,12 +142,53 @@ export function setupSocketEvents() {
         quizHeader.style.display = 'none';
         scoreArea.style.display = 'block';
 
-        finalScoresList.innerHTML = '';
-        finalScores.forEach(player => {
-            const li = document.createElement('li');
-            li.textContent = `${player.username}: ${player.score} points`;
-            finalScoresList.appendChild(li);
+        const podiumPlaces = {
+            first: document.querySelector('.podium-place.first'),
+            second: document.querySelector('.podium-place.second'),
+            third: document.querySelector('.podium-place.third')
+        };
+
+        podiumPlaces.first.querySelector('.podium-name').textContent = '';
+        podiumPlaces.first.querySelector('.podium-score').textContent = '';
+        podiumPlaces.second.querySelector('.podium-name').textContent = '';
+        podiumPlaces.second.querySelector('.podium-score').textContent = '';
+        podiumPlaces.third.querySelector('.podium-name').textContent = '';
+        podiumPlaces.third.querySelector('.podium-score').textContent = '';
+
+        podiumPlaces.first.style.display = 'flex';
+        podiumPlaces.second.style.display = 'flex';
+        podiumPlaces.third.style.display = 'flex';
+
+        const otherPlayersList = document.getElementById('other-players-list');
+        otherPlayersList.innerHTML = '';
+
+        finalScores.forEach((player, index) => {
+            if (index === 0) {
+                podiumPlaces.first.querySelector('.podium-name').textContent = player.username;
+                podiumPlaces.first.querySelector('.podium-score').textContent = player.score;
+            } else if (index === 1) {
+                podiumPlaces.second.querySelector('.podium-name').textContent = player.username;
+                podiumPlaces.second.querySelector('.podium-score').textContent = player.score;
+            } else if (index === 2) {
+                podiumPlaces.third.querySelector('.podium-name').textContent = player.username;
+                podiumPlaces.third.querySelector('.podium-score').textContent = player.score;
+            } else {
+                const li = document.createElement('li');
+                li.innerHTML = `<span>${index + 1}. ${player.username}</span><span>${player.score}</span>`;
+                otherPlayersList.appendChild(li);
+            }
         });
+
+        if (finalScores.length < 3) {
+            podiumPlaces.third.style.display = 'none';
+        }
+        if (finalScores.length < 2) {
+            podiumPlaces.second.style.display = 'none';
+        }
+        if (finalScores.length < 1) {
+            podiumPlaces.first.style.display = 'none';
+        }
+
         updateHostUI(false);
     });
 
