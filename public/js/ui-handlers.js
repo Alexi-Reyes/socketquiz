@@ -41,7 +41,7 @@ export function setupUIHandlers() {
     editQuizBtn.addEventListener('click', () => {
         editQuizArea.style.display = 'block';
         socket.emit('requestQuizForEdit', currentRoomName);
-        socket.emit('requestQuizPresets'); // Request presets when opening edit area
+        socket.emit('requestQuizPresets');
     });
 
     cancelEditBtn.addEventListener('click', () => {
@@ -59,7 +59,7 @@ export function setupUIHandlers() {
     });
 
     socket.on('quizPresetsLoaded', (presets) => {
-        quizPresetSelect.innerHTML = '<option value="">--Select a Preset--</option>'; // Clear existing options
+        quizPresetSelect.innerHTML = '<option value="">--Select a Preset--</option>';
         presets.forEach(preset => {
             const option = document.createElement('option');
             option.value = preset;

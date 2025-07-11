@@ -196,19 +196,19 @@ button:active {
 
 .podium-place.first {
     height: 200px;
-    background-color: #ffd700; /* Gold */
+    background-color: #ffd700;
     order: 2;
 }
 
 .podium-place.second {
     height: 150px;
-    background-color: #c0c0c0; /* Silver */
+    background-color: #c0c0c0;
     order: 1;
 }
 
 .podium-place.third {
     height: 100px;
-    background-color: #cd7f32; /* Bronze */
+    background-color: #cd7f32;
     order: 3;
 }
 

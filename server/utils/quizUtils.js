@@ -4,16 +4,15 @@ export function startNextQuestionCountdown(io, roomName) {
     const room = rooms[roomName];
     if (!room) return;
 
-    // Clear any existing timer
+    // clear timer
     if (room.timerInterval) {
         clearInterval(room.timerInterval);
     }
 
-    // Reveal the correct answer
     const correctAnswer = room.quiz.questions[room.currentQuestionIndex].answer;
     io.to(roomName).emit('answerResult', { correctAnswer });
 
-    // Start a 5-second countdown
+    // 5s timer
     let countdown = 5;
     io.to(roomName).emit('timer', countdown); // Show 5 immediately
 

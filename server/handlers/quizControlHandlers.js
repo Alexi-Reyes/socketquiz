@@ -87,8 +87,6 @@ export const quizControlHandlers = (io, socket) => {
 
         const timeElapsed = Math.floor((Date.now() - room.questionStartTime) / 1000);
         if (timeElapsed >= room.timeLimit) {
-            // This case should ideally not be hit if client-side timer is accurate,
-            // but as a fallback, we do nothing and let the server timer handle it.
             return;
         }
 

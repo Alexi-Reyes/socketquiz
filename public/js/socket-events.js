@@ -117,9 +117,9 @@ export function setupSocketEvents() {
         const buttons = optionsContainer.querySelectorAll('.option-button');
         buttons.forEach(button => {
             if (button.textContent === correctAnswer) {
-                button.style.backgroundColor = '#2ecc71'; // Green for correct
+                button.style.backgroundColor = '#2ecc71';
             } else {
-                button.style.backgroundColor = '#e74c3c'; // Red for incorrect
+                button.style.backgroundColor = '#e74c3c';
             }
             button.disabled = true;
         });
@@ -148,7 +148,6 @@ export function setupSocketEvents() {
             third: document.querySelector('.podium-place.third')
         };
 
-        // Clear previous podium data and make sure podium places are visible
         podiumPlaces.first.querySelector('.podium-name').textContent = '';
         podiumPlaces.first.querySelector('.podium-score').textContent = '';
         podiumPlaces.second.querySelector('.podium-name').textContent = '';
@@ -162,7 +161,6 @@ export function setupSocketEvents() {
 
         const otherPlayersList = document.getElementById('other-players-list');
         otherPlayersList.innerHTML = '';
-        // finalScoresList.innerHTML = ''; // This element is not used for podium, only for a general list if it existed.
 
         finalScores.forEach((player, index) => {
             if (index === 0) {
@@ -181,7 +179,6 @@ export function setupSocketEvents() {
             }
         });
 
-        // Hide podium places if there are not enough players
         if (finalScores.length < 3) {
             podiumPlaces.third.style.display = 'none';
         }
