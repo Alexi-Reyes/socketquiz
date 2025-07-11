@@ -114,4 +114,6 @@ export function endQuiz(io, roomName) {
 
     io.to(roomName).emit('quizEnd', Object.values(room.players).sort((a, b) => b.score - a.score));
     io.to(roomName).emit('message', 'Quiz has ended! See scores above.');
+
+    room.quizStarted = false;
 }

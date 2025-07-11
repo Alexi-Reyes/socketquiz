@@ -74,6 +74,12 @@ export const quizControlHandlers = (io, socket) => {
 
         room.quizStarted = true;
         room.currentQuestionIndex = 0;
+        room.answeredCount = 0;
+        for (const playerId in room.players) {
+            room.players[playerId].score = 0;
+            room.players[playerId].answeredCurrentQuestion = false;
+        }
+        io.to(roomName).emit('updateScores', Object.values(room.players).map(p => ({ username: p.username, score: p.score })));
         console.log(`Host ${socket.id} starting quiz countdown for room ${roomName}`);
         startQuizCountdown(io, roomName);
         io.to(roomName).emit('message', 'Quiz is about to start!');
