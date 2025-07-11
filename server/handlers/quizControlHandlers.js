@@ -1,5 +1,5 @@
 import { rooms } from '../state.js';
-import { sendQuestionWithTimer, endQuiz, startNextQuestionCountdown } from '../utils/quizUtils.js';
+import { sendQuestionWithTimer, endQuiz, startNextQuestionCountdown, startQuizCountdown } from '../utils/quizUtils.js';
 
 export const quizControlHandlers = (io, socket) => {
     socket.on('setTimeLimit', ({ roomName, timeLimit }) => {
@@ -74,8 +74,9 @@ export const quizControlHandlers = (io, socket) => {
 
         room.quizStarted = true;
         room.currentQuestionIndex = 0;
-        sendQuestionWithTimer(io, roomName);
-        io.to(roomName).emit('message', 'Quiz has started!');
+        console.log(`Host ${socket.id} starting quiz countdown for room ${roomName}`);
+        startQuizCountdown(io, roomName);
+        io.to(roomName).emit('message', 'Quiz is about to start!');
     });
 
     socket.on('submitAnswer', ({ roomName, questionIndex, answer }) => {

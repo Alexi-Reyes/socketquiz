@@ -1,10 +1,43 @@
 import { rooms } from '../state.js';
 
+export function startQuizCountdown(io, roomName) {
+    const room = rooms[roomName];
+    if (!room) {
+        console.log(`startQuizCountdown: Room ${roomName} not found.`);
+        return;
+    }
+
+    console.log(`startQuizCountdown: Starting countdown for room ${roomName}`);
+
+    if (room.timerInterval) {
+        clearInterval(room.timerInterval);
+        console.log(`startQuizCountdown: Cleared existing timer for room ${roomName}`);
+    }
+
+    const playersUsernames = Object.values(room.players).map(p => p.username);
+    console.log(`startQuizCountdown: Emitting 'quizStartingCountdown' to room ${roomName} with players: ${playersUsernames.join(', ')}`);
+    io.to(roomName).emit('quizStartingCountdown', { players: playersUsernames });
+
+    let countdown = 5;
+    console.log(`startQuizCountdown: Emitting initial 'timer' value ${countdown} to room ${roomName}`);
+    io.to(roomName).emit('timer', countdown);
+
+    room.timerInterval = setInterval(() => {
+        countdown--;
+        console.log(`startQuizCountdown: Emitting 'timer' value ${countdown} to room ${roomName}`);
+        io.to(roomName).emit('timer', countdown);
+        if (countdown <= 0) {
+            clearInterval(room.timerInterval);
+            console.log(`startQuizCountdown: Countdown finished for room ${roomName}. Starting first question.`);
+            sendQuestionWithTimer(io, roomName);
+        }
+    }, 1000);
+}
+
 export function startNextQuestionCountdown(io, roomName) {
     const room = rooms[roomName];
     if (!room) return;
 
-    // clear timer
     if (room.timerInterval) {
         clearInterval(room.timerInterval);
     }
@@ -14,7 +47,7 @@ export function startNextQuestionCountdown(io, roomName) {
 
     // 5s timer
     let countdown = 5;
-    io.to(roomName).emit('timer', countdown); // Show 5 immediately
+    io.to(roomName).emit('timer', countdown); 
 
     room.timerInterval = setInterval(() => {
         countdown--;

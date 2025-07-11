@@ -49,6 +49,26 @@ export function setupSocketEvents() {
         console.log(`Joined room ${roomName}. Is host: ${isHost}, Time Limit: ${timeLimit}, Quiz Started: ${quizStarted}`);
     });
 
+    socket.on('quizStartingCountdown', ({ players }) => {
+        console.log('quizStartingCountdown event received. Players:', players);
+        quizArea.style.display = 'block';
+        scoreArea.style.display = 'none';
+        quizHeader.style.display = 'flex';
+
+        messagesDiv.innerHTML = '';
+        const countdownMessage = document.createElement('div');
+        countdownMessage.classList.add('message-countdown');
+        countdownMessage.textContent = 'Quiz starting in...';
+        messagesDiv.appendChild(countdownMessage);
+
+        const playersList = document.createElement('div');
+        playersList.classList.add('message-players-list');
+        playersList.textContent = 'Players: ' + players.join(', ');
+        messagesDiv.appendChild(playersList);
+
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
     socket.on('message', (msg) => {
         const item = document.createElement('div');
         item.textContent = msg;
@@ -94,13 +114,13 @@ export function setupSocketEvents() {
             setTimerInterval(null);
         }
         timerDisplay.textContent = '--';
-        updateHostUI(true);
+        updateHostUI(true); 
 
         data.options.forEach(option => {
             const button = document.createElement('button');
             button.textContent = option;
             button.classList.add('option-button');
-            button.style.backgroundColor = ''; // Reset background color
+            button.style.backgroundColor = '';
             button.addEventListener('click', () => {
                 socket.emit('submitAnswer', { roomName: currentRoomName, questionIndex: currentQuestionIndex, answer: option });
                 Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
