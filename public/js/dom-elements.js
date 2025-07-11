@@ -23,3 +23,4 @@ export const questionsListDiv = document.getElementById('questions-list');
 export const addQuestionBtn = document.getElementById('add-question-btn');
 export const saveQuizBtn = document.getElementById('save-quiz-btn');
 export const cancelEditBtn = document.getElementById('cancel-edit-btn');
+export const shareQuizBtn = document.getElementById('share-quiz-btn');
