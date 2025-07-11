@@ -21,7 +21,8 @@ import {
     questionsListDiv,
     addQuestionBtn,
     saveQuizBtn,
-    cancelEditBtn
+    cancelEditBtn,
+    shareQuizBtn
 } from './dom-elements.js';
 import {
     currentRoomName,
@@ -100,8 +101,24 @@ export function setupUIHandlers() {
         if (username && roomName && !isNaN(timeLimit) && timeLimit >= 5 && timeLimit <= 120) {
             socket.emit('createRoom', { username, roomName, timeLimit });
             setCurrentRoomName(roomName);
+            shareQuizBtn.style.display = 'inline-block';
         } else {
             alert('Please enter a valid username, room name, and a time limit between 5 and 120 seconds.');
+        }
+    });
+
+    shareQuizBtn.addEventListener('click', () => {
+        const roomName = currentRoomName;
+        if (roomName) {
+            const quizLink = `${window.location.origin}?room=${roomName}`;
+            navigator.clipboard.writeText(quizLink)
+                .then(() => {
+                    alert('Quiz link copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy quiz link: ', err);
+                    alert('Failed to copy quiz link. Please copy it manually.');
+                });
         }
     });
 
@@ -137,6 +154,7 @@ export function setupUIHandlers() {
             timerDisplay.textContent = '--';
             quizHeader.style.display = 'none';
             setCurrentRoomName('');
+            shareQuizBtn.style.display = 'none';
         }
     });
 }
