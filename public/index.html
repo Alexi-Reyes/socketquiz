@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SocketQuiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>SocketQuiz</h1>
+
+        <div id="join-form">
+            <h2>Join a Quiz Room</h2>
+            <form>
+                <input type="text" id="username-input" placeholder="Enter your username" required>
+                <input type="text" id="room-name-input" placeholder="Enter room name" required>
+                <button type="submit" id="join-room-btn">Join Room</button>
+                <button type="button" id="create-room-btn">Create Room</button>
+            </form>
+        </div>
+
+        <div id="quiz-area" style="display: none;">
+            <h2 id="quiz-header">Current Quiz <div id="timer-circle"><span id="timer-display">--</span>s</div></h2>
+            <p id="question-display"></p>
+            <div id="options-container" class="question-options">
+
+            </div>
+            <div id="host-controls">
+                <label for="time-limit-input">Question Time Limit (seconds):</label>
+                <input type="number" id="time-limit-input" value="30" min="5" max="120">
+                <button id="start-quiz-btn">Start Quiz</button>
+                <button id="edit-quiz-btn">Edit Quiz</button>
+            </div>
+            <button id="leave-room-btn">Leave Room</button>
+
+            <div id="edit-quiz-area" style="display: none;">
+                <h2>Edit Quiz Questions</h2>
+                <div id="questions-list">
+
+                </div>
+                <button id="add-question-btn">Add New Question</button>
+                <button id="save-quiz-btn">Save Quiz Changes</button>
+                <button id="cancel-edit-btn">Cancel Editing</button>
+            </div>
+
+            <h3>Players in Room:</h3>
+            <ul id="player-list-ul" class="player-list">
+
+            </ul>
+
+            <h3>Messages:</h3>
+            <div id="messages">
+
+            </div>
+        </div>
+
+        <div id="score-area" style="display: none;">
+            <h2>Quiz Ended! Final Scores:</h2>
+            <ul id="final-scores-list">
+
+            </ul>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

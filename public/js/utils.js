@@ -1,0 +1,87 @@
+import {
+    hostControlsDiv,
+    editQuizBtn,
+    startQuizBtn,
+    timeLimitInput,
+    timeLimitInputLabel,
+    questionsListDiv,
+    quizHeader
+} from './dom-elements.js';
+
+export let currentRoomName = '';
+export let currentQuestionIndex = -1;
+export let isCurrentUserHost = false;
+export let timerInterval;
+
+export function setCurrentRoomName(name) {
+    currentRoomName = name;
+}
+
+export function setCurrentQuestionIndex(index) {
+    currentQuestionIndex = index;
+}
+
+export function setIsCurrentUserHost(isHost) {
+    isCurrentUserHost = isHost;
+}
+
+export function setTimerInterval(interval) {
+    timerInterval = interval;
+}
+
+
+export function updateHostUI(quizStarted = false) {
+    if (isCurrentUserHost) {
+        hostControlsDiv.style.display = 'block';
+        editQuizBtn.style.display = 'inline-block';
+
+        if (quizStarted) {
+            startQuizBtn.style.display = 'none';
+            timeLimitInput.disabled = true;
+            timeLimitInput.style.display = 'none';
+            timeLimitInputLabel.style.display = 'none';
+            editQuizBtn.style.display = 'none';
+            quizHeader.style.display = 'flex';
+        } else {
+            startQuizBtn.style.display = 'inline-block';
+            timeLimitInput.disabled = false;
+            timeLimitInput.style.display = 'inline-block';
+            timeLimitInputLabel.style.display = 'inline-block';
+            editQuizBtn.style.display = 'inline-block';
+            quizHeader.style.display = 'none';
+        }
+    } else {
+        hostControlsDiv.style.display = 'none';
+        editQuizBtn.style.display = 'none';
+        quizHeader.style.display = 'none';
+    }
+}
+
+export function createQuestionInputSet(question = '', options = ['', '', '', ''], answer = '') {
+    const questionDiv = document.createElement('div');
+    questionDiv.classList.add('question-input-set');
+
+    const questionInput = document.createElement('input');
+    questionInput.type = 'text';
+    questionInput.placeholder = 'Enter question';
+    questionInput.value = question;
+    questionDiv.appendChild(questionInput);
+
+    const optionsInputs = [];
+    for (let i = 0; i < 4; i++) {
+        const optionInput = document.createElement('input');
+        optionInput.type = 'text';
+        optionInput.placeholder = `Option ${i + 1}`;
+        optionInput.value = options[i] || '';
+        optionsInputs.push(optionInput);
+        questionDiv.appendChild(optionInput);
+    }
+
+    const answerInput = document.createElement('input');
+    answerInput.type = 'text';
+    answerInput.placeholder = 'Correct answer';
+    answerInput.value = answer;
+    questionDiv.appendChild(answerInput);
+
+    return questionDiv;
+}
