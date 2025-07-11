@@ -290,9 +290,13 @@ button:active {
 }
 
 #questions-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px;
     max-height: 300px;
     overflow-y: auto;
+    box-shadow: inset 0 12px 10px -10px rgba(142, 68, 173, 0.7),
+                inset 0 -12px 10px -10px rgba(142, 68, 173, 0.7);
 }
 
 .question-input-set input[type="text"] {
@@ -309,24 +313,24 @@ button:active {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 10px; /* Space below the options row */
+    margin-bottom: 10px; 
 }
 
 .question-options-row label {
-    margin-right: 10px; /* Space between "Options:" and the first option */
-    min-width: 80px; /* Give the label a minimum width to align */
+    margin-right: 10px;
+    min-width: 80px;
 }
 
 .options-container-edit {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px; /* Space between option inputs */
-    flex-grow: 1; /* Allow the container to take available space */
+    gap: 10px;
+    flex-grow: 1; 
 }
 
 .options-container-edit input[type="text"] {
-    flex: 1; /* Allow options to grow and shrink */
-    min-width: 120px; /* Minimum width for options */
+    flex: 1; 
+    min-width: 120px; 
 }
 
 #answer-status {
