@@ -25,4 +25,6 @@ export const saveQuizBtn = document.getElementById('save-quiz-btn');
 export const cancelEditBtn = document.getElementById('cancel-edit-btn');
 export const quizPresetSelect = document.getElementById('quiz-preset-select');
 export const loadPresetBtn = document.getElementById('load-preset-btn');
+export const chatInput = document.getElementById('chat-input');
+export const sendChatBtn = document.getElementById('send-chat-btn');
 export const shareQuizBtn = document.getElementById('share-quiz-btn');

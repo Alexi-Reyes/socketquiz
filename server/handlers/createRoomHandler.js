@@ -32,6 +32,7 @@ export const createRoomHandler = (io, socket) => {
 
         socket.join(roomName);
         console.log(`${username} created and joined room: ${roomName} with time limit ${timeLimit}s`);
+        socket.username = username;
         rooms[roomName].players[socket.id] = { username, score: 0 };
 
         io.to(roomName).emit('playerList', Object.values(rooms[roomName].players));
