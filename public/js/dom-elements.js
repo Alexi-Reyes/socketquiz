@@ -30,3 +30,4 @@ export const loadPresetBtn = document.getElementById('load-preset-btn');
 export const chatInput = document.getElementById('chat-input');
 export const sendChatBtn = document.getElementById('send-chat-btn');
 export const shareQuizBtn = document.getElementById('share-quiz-btn');
+export const answerStatusDiv = document.getElementById('answer-status');

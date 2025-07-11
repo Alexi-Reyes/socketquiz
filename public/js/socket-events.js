@@ -11,7 +11,9 @@ import {
     timerDisplay,
     finalScoresList,
     questionsListDiv,
-    editQuizArea, quizHeader
+    editQuizArea,
+    quizHeader,
+    answerStatusDiv
 } from './dom-elements.js';
 import {
     currentRoomName,
@@ -114,7 +116,8 @@ export function setupSocketEvents() {
             setTimerInterval(null);
         }
         timerDisplay.textContent = '--';
-        updateHostUI(true); 
+        updateHostUI(true);
+        answerStatusDiv.style.display = 'none';
 
         data.options.forEach(option => {
             const button = document.createElement('button');
@@ -124,6 +127,7 @@ export function setupSocketEvents() {
             button.addEventListener('click', () => {
                 socket.emit('submitAnswer', { roomName: currentRoomName, questionIndex: currentQuestionIndex, answer: option });
                 Array.from(optionsContainer.children).forEach(btn => btn.disabled = true);
+                answerStatusDiv.style.display = 'block';
             });
             optionsContainer.appendChild(button);
         });
