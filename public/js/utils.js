@@ -34,25 +34,24 @@ export function updateHostUI(quizStarted = false) {
     if (isCurrentUserHost) {
         hostControlsDiv.style.display = 'block';
         editQuizBtn.style.display = 'inline-block';
-
-        if (quizStarted) {
-            startQuizBtn.style.display = 'none';
-            timeLimitInput.disabled = true;
-            timeLimitInput.style.display = 'none';
-            timeLimitInputLabel.style.display = 'none';
-            editQuizBtn.style.display = 'none';
-            quizHeader.style.display = 'flex';
-        } else {
-            startQuizBtn.style.display = 'inline-block';
-            timeLimitInput.disabled = false;
-            timeLimitInput.style.display = 'inline-block';
-            timeLimitInputLabel.style.display = 'inline-block';
-            editQuizBtn.style.display = 'inline-block';
-            quizHeader.style.display = 'none';
-        }
     } else {
         hostControlsDiv.style.display = 'none';
         editQuizBtn.style.display = 'none';
+    }
+
+    if (quizStarted) {
+        startQuizBtn.style.display = 'none';
+        timeLimitInput.disabled = true;
+        timeLimitInput.style.display = 'none';
+        timeLimitInputLabel.style.display = 'none';
+        editQuizBtn.style.display = 'none';
+        quizHeader.style.display = 'flex';
+    } else {
+        startQuizBtn.style.display = 'inline-block';
+        timeLimitInput.disabled = false;
+        timeLimitInput.style.display = 'inline-block';
+        timeLimitInputLabel.style.display = 'inline-block';
+        editQuizBtn.style.display = 'inline-block';
         quizHeader.style.display = 'none';
     }
 }
