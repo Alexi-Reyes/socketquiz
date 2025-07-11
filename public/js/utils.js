@@ -78,9 +78,13 @@ export function createQuestionInputSet(question = '', options = ['', '', '', '']
     questionInput.value = question;
     questionDiv.appendChild(questionInput);
 
+    const optionsRowDiv = document.createElement('div');
+    optionsRowDiv.classList.add('question-options-row');
+
     const optionsLabel = document.createElement('label');
     optionsLabel.textContent = 'Options:';
-    questionDiv.appendChild(optionsLabel);
+    optionsRowDiv.appendChild(optionsLabel);
+
     const optionsContainerDiv = document.createElement('div');
     optionsContainerDiv.classList.add('options-container-edit');
     const optionsInputs = [];
@@ -92,7 +96,8 @@ export function createQuestionInputSet(question = '', options = ['', '', '', '']
         optionsInputs.push(optionInput);
         optionsContainerDiv.appendChild(optionInput);
     }
-    questionDiv.appendChild(optionsContainerDiv);
+    optionsRowDiv.appendChild(optionsContainerDiv);
+    questionDiv.appendChild(optionsRowDiv);
 
     const answerLabel = document.createElement('label');
     answerLabel.textContent = 'Correct Answer:';

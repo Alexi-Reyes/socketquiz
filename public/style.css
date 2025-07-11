@@ -305,6 +305,30 @@ button:active {
     display: inline-block;
 }
 
+.question-options-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10px; /* Space below the options row */
+}
+
+.question-options-row label {
+    margin-right: 10px; /* Space between "Options:" and the first option */
+    min-width: 80px; /* Give the label a minimum width to align */
+}
+
+.options-container-edit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Space between option inputs */
+    flex-grow: 1; /* Allow the container to take available space */
+}
+
+.options-container-edit input[type="text"] {
+    flex: 1; /* Allow options to grow and shrink */
+    min-width: 120px; /* Minimum width for options */
+}
+
 #answer-status {
     text-align: center;
     font-size: 1.5em;

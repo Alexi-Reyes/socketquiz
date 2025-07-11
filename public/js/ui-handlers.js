@@ -154,6 +154,10 @@ export function setupUIHandlers() {
     createRoomBtn.addEventListener('click', () => {
         const username = usernameInput.value.trim();
         const roomName = roomNameInput.value.trim();
+        // Ensure timeLimitInput has a value, even if hidden, for room creation
+        if (!timeLimitInput.value) {
+            timeLimitInput.value = '30'; // Default to 30 seconds
+        }
         const timeLimit = parseInt(timeLimitInput.value, 10);
         if (username && roomName && !isNaN(timeLimit) && timeLimit >= 5 && timeLimit <= 120) {
             currentUsername = username;
