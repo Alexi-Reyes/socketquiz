@@ -22,6 +22,8 @@ import {
     addQuestionBtn,
     saveQuizBtn,
     cancelEditBtn,
+    quizPresetSelect,
+    loadPresetBtn,
     shareQuizBtn
 } from './dom-elements.js';
 import {
@@ -31,18 +33,47 @@ import {
     setCurrentRoomName,
     setTimerInterval,
     updateHostUI,
-    createQuestionInputSet
+    createQuestionInputSet,
+    clearQuestionsList
 } from './utils.js';
 
 export function setupUIHandlers() {
     editQuizBtn.addEventListener('click', () => {
         editQuizArea.style.display = 'block';
         socket.emit('requestQuizForEdit', currentRoomName);
+        socket.emit('requestQuizPresets'); // Request presets when opening edit area
     });
 
     cancelEditBtn.addEventListener('click', () => {
         editQuizArea.style.display = 'none';
         quizArea.style.display = 'block';
+    });
+
+    loadPresetBtn.addEventListener('click', () => {
+        const selectedPreset = quizPresetSelect.value;
+        if (selectedPreset) {
+            socket.emit('requestPresetQuiz', selectedPreset);
+        } else {
+            alert('Please select a preset to load.');
+        }
+    });
+
+    socket.on('quizPresetsLoaded', (presets) => {
+        quizPresetSelect.innerHTML = '<option value="">--Select a Preset--</option>'; // Clear existing options
+        presets.forEach(preset => {
+            const option = document.createElement('option');
+            option.value = preset;
+            option.textContent = preset;
+            quizPresetSelect.appendChild(option);
+        });
+    });
+
+    socket.on('presetQuizLoaded', (quiz) => {
+        clearQuestionsList(); // Clear current questions
+        quiz.forEach(q => {
+            const newQuestionInputSet = createQuestionInputSet(q.question, q.options, q.answer);
+            questionsListDiv.appendChild(newQuestionInputSet);
+        });
     });
 
     addQuestionBtn.addEventListener('click', () => {

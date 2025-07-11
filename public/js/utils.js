@@ -61,12 +61,20 @@ export function createQuestionInputSet(question = '', options = ['', '', '', '']
     const questionDiv = document.createElement('div');
     questionDiv.classList.add('question-input-set');
 
+    const questionLabel = document.createElement('label');
+    questionLabel.textContent = 'Question:';
+    questionDiv.appendChild(questionLabel);
     const questionInput = document.createElement('input');
     questionInput.type = 'text';
     questionInput.placeholder = 'Enter question';
     questionInput.value = question;
     questionDiv.appendChild(questionInput);
 
+    const optionsLabel = document.createElement('label');
+    optionsLabel.textContent = 'Options:';
+    questionDiv.appendChild(optionsLabel);
+    const optionsContainerDiv = document.createElement('div');
+    optionsContainerDiv.classList.add('options-container-edit');
     const optionsInputs = [];
     for (let i = 0; i < 4; i++) {
         const optionInput = document.createElement('input');
@@ -74,14 +82,33 @@ export function createQuestionInputSet(question = '', options = ['', '', '', '']
         optionInput.placeholder = `Option ${i + 1}`;
         optionInput.value = options[i] || '';
         optionsInputs.push(optionInput);
-        questionDiv.appendChild(optionInput);
+        optionsContainerDiv.appendChild(optionInput);
     }
+    questionDiv.appendChild(optionsContainerDiv);
 
+    const answerLabel = document.createElement('label');
+    answerLabel.textContent = 'Correct Answer:';
+    questionDiv.appendChild(answerLabel);
     const answerInput = document.createElement('input');
     answerInput.type = 'text';
     answerInput.placeholder = 'Correct answer';
     answerInput.value = answer;
     questionDiv.appendChild(answerInput);
 
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove Question';
+    removeButton.classList.add('remove-question-btn');
+    removeButton.addEventListener('click', () => {
+        questionDiv.remove();
+    });
+    questionDiv.appendChild(removeButton);
+
     return questionDiv;
+}
+
+export function clearQuestionsList() {
+    const questionsListDiv = document.getElementById('questions-list');
+    if (questionsListDiv) {
+        questionsListDiv.innerHTML = '';
+    }
 }
