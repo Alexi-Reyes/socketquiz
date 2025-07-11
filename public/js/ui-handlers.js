@@ -14,6 +14,8 @@ import {
     timerDisplay,
     startQuizBtn,
     leaveRoomBtn,
+    returnToStartBtn,
+    quitQuizBtn,
     quizHeader,
     timeLimitInput,
     editQuizBtn,
@@ -212,5 +214,27 @@ export function setupUIHandlers() {
             setCurrentRoomName('');
             shareQuizBtn.style.display = 'none';
         }
+    });
+
+    returnToStartBtn.addEventListener('click', () => {
+        scoreArea.style.display = 'none';
+        quizArea.style.display = 'block';
+    });
+
+    quitQuizBtn.addEventListener('click', () => {
+        if (currentRoomName) {
+            socket.emit('leaveRoom', currentRoomName);
+        }
+        joinForm.style.display = 'block';
+        quizArea.style.display = 'none';
+        scoreArea.style.display = 'none';
+        messagesDiv.innerHTML = '';
+        playerListUl.innerHTML = '';
+        questionDisplay.textContent = '';
+        optionsContainer.innerHTML = '';
+        timerDisplay.textContent = '--';
+        quizHeader.style.display = 'none';
+        setCurrentRoomName('');
+        shareQuizBtn.style.display = 'none';
     });
 }

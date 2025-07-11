@@ -5,7 +5,9 @@ import {
     timeLimitInput,
     timeLimitInputLabel,
     questionsListDiv,
-    quizHeader
+    quizHeader,
+    questionDisplay,
+    optionsContainer
 } from './dom-elements.js';
 
 export let currentRoomName = '';
@@ -46,7 +48,11 @@ export function updateHostUI(quizStarted = false) {
         timeLimitInputLabel.style.display = 'none';
         editQuizBtn.style.display = 'none';
         quizHeader.style.display = 'flex';
+        questionDisplay.style.display = 'block';
+        optionsContainer.style.display = 'block';
     } else {
+        questionDisplay.style.display = 'none';
+        optionsContainer.style.display = 'none';
         startQuizBtn.style.display = 'inline-block';
         timeLimitInput.disabled = false;
         timeLimitInput.style.display = 'inline-block';
